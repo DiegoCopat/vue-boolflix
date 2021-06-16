@@ -8,11 +8,13 @@
                     type="text" 
                     placeholder="Cerca">
                 <button
-                @click="sendSearchName"
-                >Invia</button>
+                    @click="sendSearchName"
+                    >Invia</button>
             </div>
 
-            <Element />
+            <Element 
+                v-for="element in moviesSearched" :key="element.id"
+                :title="element.title" />
         </section>
 
     </main>
@@ -21,27 +23,47 @@
 <script>
 import Element from "./Element";
 import axios from "axios";
+
 export default {
     name: "Main",
     data: function() {
         return {
-            searchName: ""
+            searchName: "",
+            moviesApi: "https://api.themoviedb.org/3/search/movie",
+            apiKey: "a9c16860fa33923f90ce639128446c35",
+            moviesSearched: []
         }
     },
     methods: {
-        sendSerchName: function() {
-            
+        sendSearchName: function() {
+            console.log(this.searchName);
+            axios
+                .get(this.moviesApi, {
+                    params: {
+                        api_key: this.apiKey,
+                        query: this.searchName,
+                        language: "it-IT"
+                    }
+                })
+                .then(
+                    (response) => {
+                        console.log(response);
+                        this.moviesSearched = response.data.results;
+                        console.log(this.moviesSearched);
+                    }
+                    
+                )
+                .catch(
+                    (error) => {
+                        console.log(error);
+                    }
+                );
         }
     },
     components: {
         Element
-    },
-    created: function() {
-        axios
-            .get("https://api.themoviedb.org/3/movie/550?api_key=a9c16860fa33923f90ce639128446c35")
-            .then()
-            .catch();
     }
+    
 }
 </script>
 
