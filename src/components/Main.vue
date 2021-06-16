@@ -13,8 +13,9 @@
             </div>
 
             <Element 
+                
                 v-for="element in moviesSearched" :key="element.id"
-                :title="element.title" />
+                :movieElement="element" />
         </section>
 
     </main>
