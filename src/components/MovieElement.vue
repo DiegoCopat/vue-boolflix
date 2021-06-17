@@ -6,11 +6,11 @@
         <img 
             v-if="movieElement.original_language == 'en'" 
             src="../assets/images/en.png" 
-            alt="">
+            alt="english flag">
         <img 
             v-else-if="movieElement.original_language == 'it'" 
             src="../assets/images/it.png" 
-            alt="">
+            alt="bandiera italiana">
         <h2 
             class="language" 
             v-else> {{ movieElement.original_language }} 
@@ -23,9 +23,9 @@
 <script>
 
 export default {
-    name: "Element",
+    name: "MovieElement",
     props: {
-        "movieElement": Object
+        "movieElement": Object,
     }
 }
 </script>

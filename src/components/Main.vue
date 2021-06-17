@@ -6,23 +6,34 @@
                 <input 
                     v-model="searchName" 
                     type="text" 
-                    placeholder="Cerca">
+                    placeholder="Cerca"
+                    @keyup.enter="sendSearchName">
+                    
                 <button
                     @click="sendSearchName"
                     >Invia</button>
+                    
             </div>
 
-            <Element 
+            <h2>Film</h2>
+            <MovieElement 
                 
-                v-for="element in moviesSearched" :key="element.id"
-                :movieElement="element" />
+                v-for="movieElement in moviesSearched" :key="movieElement.id"
+                :movieElement="movieElement" />
+
+            <h2>Serie TV</h2>
+            <SeriesElement 
+                
+                v-for="seriesElement in seriesSearched" :key="seriesElement.id"
+                :seriesElement="seriesElement" />
         </section>
 
     </main>
 </template>
 
 <script>
-import Element from "./Element";
+import MovieElement from "./MovieElement";
+import SeriesElement from "./SeriesElement";
 import axios from "axios";
 
 export default {
@@ -30,16 +41,17 @@ export default {
     data: function() {
         return {
             searchName: "",
-            moviesApi: "https://api.themoviedb.org/3/search/movie",
+            Api: "https://api.themoviedb.org/3/",
             apiKey: "a9c16860fa33923f90ce639128446c35",
-            moviesSearched: []
+            moviesSearched: [],
+            seriesSearched: []
         }
     },
     methods: {
         sendSearchName: function() {
             console.log(this.searchName);
             axios
-                .get(this.moviesApi, {
+                .get(this.Api + "search/movie", {
                     params: {
                         api_key: this.apiKey,
                         query: this.searchName,
@@ -59,10 +71,32 @@ export default {
                         console.log(error);
                     }
                 );
+            axios
+                .get(this.Api + "search/tv", {
+                    params: {
+                        api_key: this.apiKey,
+                        query: this.searchName,
+                        language: "it-IT"
+                    }
+                })
+                .then(
+                    (response) => {
+                        console.log(response);
+                        this.seriesSearched = response.data.results;
+                        console.log(this.seriesSearched);
+                    }
+                    
+                )
+                .catch(
+                    (error) => {
+                        console.log(error);
+                    }
+                );
         }
     },
     components: {
-        Element
+        MovieElement,
+        SeriesElement
     }
     
 }
@@ -74,7 +108,8 @@ export default {
     main {
         display: flex;
         width: 100%; 
-        height: calc(100vh - 100px);
+        // height: calc(100vh - 100px);
+        overflow: auto;
         background-color: $bg-light;
 
         .wrapper {
@@ -82,9 +117,15 @@ export default {
             flex-wrap: wrap;
             width: 80%;
             height: 90%;
-            margin: auto;
+            margin: 30px auto 30px auto;
+            padding: 30px;
             align-content: space-around;
             background-color: $bg-dark;
+
+        & > h2 {
+            width: 100%;
+            padding: 50px;
+        }  
 
             .searchBar {
                 display: flex;
