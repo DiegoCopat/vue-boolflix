@@ -1,8 +1,8 @@
 <template>
     <div class="element">
 
-        <h2 class="title">{{ seriesElement.title }}</h2>
-        <h2 class="originalTitle">{{ seriesElement.original_title }}</h2>
+        <h2 class="title">{{ seriesElement.name }}</h2>
+        <h2 class="originalTitle">{{ seriesElement.original_name }}</h2>
     
         <img 
         v-if="seriesElement.original_language == 'en'" 
