@@ -49,15 +49,18 @@ export default {
     },
     methods: {
         sendSearchName: function() {
-            console.log(this.searchName);
-            axios
-                .get(this.Api + "search/movie", {
-                    params: {
+
+            const constParams = {
+                params: {
                         api_key: this.apiKey,
                         query: this.searchName,
                         language: "it-IT"
-                    }
-                })
+                }
+            };
+            
+            console.log(this.searchName);
+            axios
+                .get(this.Api + "search/movie", constParams)
                 .then(
                     (response) => {
                         console.log(response);
@@ -72,13 +75,7 @@ export default {
                     }
                 );
             axios
-                .get(this.Api + "search/tv", {
-                    params: {
-                        api_key: this.apiKey,
-                        query: this.searchName,
-                        language: "it-IT"
-                    }
-                })
+                .get(this.Api + "search/tv", constParams)
                 .then(
                     (response) => {
                         console.log(response);

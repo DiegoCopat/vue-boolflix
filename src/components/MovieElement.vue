@@ -1,5 +1,6 @@
 <template>
     <div class="element">
+
         <h2 class="title">{{ movieElement.title }}</h2>
         <h2 class="originalTitle">{{ movieElement.original_title }}</h2>
         
@@ -16,8 +17,8 @@
             v-else> {{ movieElement.original_language }} 
         </h2>
         <h2 class="vote">{{ movieElement.vote_average }}</h2>
-    </div>
 
+    </div>
 </template>
 
 <script>
